@@ -5,25 +5,28 @@ import '../flow.css';
 import 'reactflow/dist/base.css';
 import { useCallback, useMemo, useState } from "react";
 import { Add, Multiply, NumNode, Result, Subtract } from "../Nodes";
-import { CustomEdge } from "../Edges";
+// import { CustomEdge } from "../Edges";
 const getNewID=()=>(Math.random() + 1).toString(36).substring(7);
 export function Calculator(){
 	const [inp,setInp]=useState<Number>(3)
 	const nodeTypes = useMemo(() => ({ add: Add, sub:Subtract, mul:Multiply, num: NumNode, result:Result }), []);
-	const edgeTypes = {
-		turbo: CustomEdge,
-	};
-	const defaultEdgeOptions = {
-		type: 'turbo',
-		markerEnd: 'edge-circle',
-	}
+	// const edgeTypes = {
+	// 	turbo: CustomEdge,
+	// };
+	// const defaultEdgeOptions = {
+	// 	type: 'turbo',
+	// 	markerEnd: 'edge-circle',
+	// }
 	const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>([]);
 	const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>();
 
 	const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [],
+    (params) => setEdges((eds) => {
+			console.log(params,eds)
+			return addEdge(params, eds)
+		}),
+    [setEdges],
   );
 
 	const onDrop=useCallback((e)=>{

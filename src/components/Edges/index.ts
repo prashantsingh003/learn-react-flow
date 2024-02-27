@@ -1,3 +1,3 @@
 import CustomEdge from "./TurboEdge";
-
-export {CustomEdge}
+import ColoredEdge from "./ColoredEdge";
+export {CustomEdge, ColoredEdge}
