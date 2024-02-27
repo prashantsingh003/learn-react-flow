@@ -1,42 +1,47 @@
-import ReactFlow, { ReactFlowInstance, ReactFlowProvider, useEdgesState, useNodesState } from "reactflow";
+import ReactFlow, { Edge, ReactFlowInstance, ReactFlowProvider, addEdge, useEdgesState, useNodesState } from "reactflow";
 import { Options } from "./Options";
 import './calculator.css';
 import '../flow.css';
 import 'reactflow/dist/base.css';
 import { useCallback, useMemo, useState } from "react";
-import { Add, Multiply, Subtract } from "../Nodes";
+import { Add, Multiply, NumNode, Result, Subtract } from "../Nodes";
+import { CustomEdge } from "../Edges";
 const getNewID=()=>(Math.random() + 1).toString(36).substring(7);
 export function Calculator(){
-	const [inp,setInp]=useState<Number>(0)
-	const nodeTypes = useMemo(() => ({ add: Add, sub:Subtract, mul:Multiply }), []);
+	const [inp,setInp]=useState<Number>(3)
+	const nodeTypes = useMemo(() => ({ add: Add, sub:Subtract, mul:Multiply, num: NumNode, result:Result }), []);
+	const edgeTypes = {
+		turbo: CustomEdge,
+	};
+	const defaultEdgeOptions = {
+		type: 'turbo',
+		markerEnd: 'edge-circle',
+	}
 	const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>([]);
 	const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>();
 
-	const getNode=(typ:String,val:Number)=>{
-		return {
-			id: getNewID(),
-			type: typ,
-			position: { x: 0, y: 0 },
-			data: { val },
-		}
-	}
-	const handleSelection=(typ:string)=>{
-		const newNode=getNode(typ,inp);
-		setNodes((nds) => nds.concat(newNode));
-	}
-	const onDrop=(e)=>{
+	const onConnect = useCallback(
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [],
+  );
+
+	const onDrop=useCallback((e)=>{
 		e.preventDefault()
 		const type = e.dataTransfer.getData('application/reactflow');
+		if (type=='num' && inp==0){ 
+			alert('Empty node '+inp)
+			return
+		}
 		const position=reactFlowInstance?.screenToFlowPosition({x:e.clientX,y:e.clientY})
 		const node={
 			id: getNewID(),
 			type: type,
 			position,
-			data: { inp },
+			data: { val:inp },
 		}
 		setNodes((nds) => nds.concat(node));
-	}
+	},[reactFlowInstance])
 
 	const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -47,17 +52,16 @@ export function Calculator(){
 		<>
 		 	<ReactFlowProvider>
 			<div style={{ width: '80vw', }}>
-				<input type="number" value={String(inp)} onChange={(e)=>setInp(Number(e.target.value))} id="" />
+				<input type="number" className="p-2 outline-none rounded-md text-center w-full my-2" value={String(inp)} onChange={(e)=>setInp(Number(e.target.value))} id="" />
 				<Options></Options>
 				{/* <div className="container">
-					<div onClick={()=>handleSelection('add')}>Add</div>
-					<div onClick={()=>handleSelection('sub')}>Subtract</div>
-					<div onClick={()=>handleSelection('mul')}>Multiply</div>
+					<div onClick={()=>handleSelection('num')}>num</div>
 				</div> */}
 			</div>
-			<div style={{ width: '80vw', height: '50vh' }}>
+			<div style={{ width: '80vw', height: '50vh' }} className="rounded-lg">
 				<ReactFlow
 					nodes={nodes}
+					// edgeTypes={edgeTypes}
 					edges={edges}
 					nodeTypes={nodeTypes}
 					onNodesChange={onNodesChange}
@@ -65,6 +69,8 @@ export function Calculator(){
 					onDrop={onDrop}
 					onDragOver={onDragOver}
 					onInit={setReactFlowInstance}
+					// defaultEdgeOptions={defaultEdgeOptions}
+					onConnect={onConnect}
 				>
 				</ReactFlow>
 			</div>
