@@ -49,7 +49,7 @@ const initialEdges: Edge[] = [
   {
     id: 'e1-2',
     source: '1',
-    target: '2',
+    target: '2',animated: true
   },
   {
     id: 'e3-4',
