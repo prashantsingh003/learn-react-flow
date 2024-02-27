@@ -1,7 +1,7 @@
 // import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import { Flow,DragDrop } from './components'
+import { Flow,DragDrop, CustomFlow, Calculator } from './components'
 import './App.css'
 
 function App() {
@@ -11,7 +11,8 @@ function App() {
     <>
     {/* <div><Flow></Flow></div> */}
     <div className='' style={{width: '80vw', height: '80vh'}}>
-      <DragDrop></DragDrop>
+      {/* <DragDrop></DragDrop> */}
+      <Calculator></Calculator>
     </div>
     </>
   )
