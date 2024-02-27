@@ -10,7 +10,7 @@ function App() {
   return (
     <>
     {/* <div><Flow></Flow></div> */}
-    <div className='' style={{width: '80vw', height: '80vh'}}>
+    <div>
       {/* <DragDrop></DragDrop> */}
       <Calculator></Calculator>
     </div>
