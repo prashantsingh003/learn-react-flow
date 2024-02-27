@@ -1,7 +1,7 @@
 import ReactFlow, { Edge, ReactFlowInstance, ReactFlowProvider, addEdge, useEdgesState, useNodesState } from "reactflow";
 import { Options } from "./Options";
 import './calculator.css';
-import '../flow.css';
+// import '../flow.css';
 import 'reactflow/dist/base.css';
 import { useCallback, useMemo, useState } from "react";
 import { Add, Multiply, NumNode, Result, Subtract } from "../Nodes";
