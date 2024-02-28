@@ -13,11 +13,10 @@ export const Subtract =  memo(({data,isConnectable})=>{
 	return (
 		<div className="cal-nodes space-y-5 bg-rose-300 opacity-80 text-center rounded-lg ">
 			<div className="p-3 shadow rounded-lg">
-				<h3 className="text-lg border-b text-slate-600 font-bold">Subtract Input (-)</h3>
+				<h3 className="text-lg border-b text-slate-600 font-bold">Subtract (-)</h3>
 				<p className="font-sans">
 					<input 
-						type="number" 
-						className="text-center text-slate-600 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-700 rounded-md py-2 px-4" 
+						type="number" disabled className="text-center text-slate-600 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-700 rounded-md py-2 px-4" 
 						value={String(num)} id="" onChange={(e)=>setNum(Number(e.target.value))}
 					/>
 				</p>

@@ -10,6 +10,11 @@
 .container>div:hover{
 	border: 1px solid rgb(247, 245, 245);
 }
+.container>div.disabled{
+	color: slategray;
+	border: 1px solid slategray !important;
+	opacity: 0.8;
+}
 .react-flow__handle{
 	/* height: 10px;
 	width: 10px; */

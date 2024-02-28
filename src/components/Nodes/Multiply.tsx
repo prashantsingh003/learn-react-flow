@@ -9,12 +9,13 @@ export const Multiply = memo(({data})=>{
 	const [handleIDs,setHandleIDs]=useState<string[]>([])
 	useEffect(()=>{
 		let arr=[uuid(),uuid()]
+		console.log('tt')
 		setHandleIDs(arr)
 	},[])
 	return (
 		<div className="cal-nodes space-y-5 bg-blue-300 opacity-80 text-center rounded-lg ">
 			<div className="p-3 shadow rounded-lg">
-				<h3 className="text-lg border-b text-slate-600 font-bold">Multiply With Input (x)</h3>
+				<h3 className="text-lg border-b text-slate-600 font-bold">Multiply (x)</h3>
 				<p className="font-sans">
 					<input 
 						type="number" 

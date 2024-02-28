@@ -1,11 +1,10 @@
-import { memo, useEffect, useId, useState } from "react";
-import { Handle, Position, useEdges } from "reactflow";
+import { memo, useEffect, useState } from "react";
+import { Handle, Position } from "reactflow";
 import { v4 as uuid } from "uuid";
 export const NumNode=memo(({data,isConnectable})=>{
 	const [handleId,setHandleId]=useState<string>()
 	useEffect(()=>{
 		setHandleId(uuid())
-		console.log(handleId)
 	},[])
 	return (
 		<>
