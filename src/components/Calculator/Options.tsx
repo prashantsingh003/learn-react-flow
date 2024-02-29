@@ -19,9 +19,9 @@ export function Options({disableNum=false}:{disableNum:Boolean}){
 				<div className="dndnode output" onDragStart={(event) => onDragStart(event, 'mul')} draggable>
 					Multiplication Node
 				</div>
-				<div className={`dndnode output`} onDragStart={(event) => onDragStart(event, 'result')} draggable>
+				{/* <div className={`dndnode output`} onDragStart={(event) => onDragStart(event, 'result')} draggable>
 					Result
-				</div>
+				</div> */}
 			</div>
 		</aside>
 	)
