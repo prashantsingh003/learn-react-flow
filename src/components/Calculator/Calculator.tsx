@@ -5,8 +5,8 @@ import './calculator.css';
 import 'reactflow/dist/style.css';
 import 'reactflow/dist/base.css';
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Add, Multiply, NumNode, Result, Subtract } from "../Nodes";
-import { ColoredEdge } from "../Edges";
+import { Add, Multiply, NumNode, Result, Subtract } from "./Nodes";
+import { ColoredEdge } from "./Edges";
 
 const getNewID=()=>(Math.random() + 1).toString(36).substring(7);
 
