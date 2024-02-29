@@ -20,9 +20,25 @@ export const nodeManagementSlice=createSlice({
 			const node=action.payload;
 			const id=action.payload.id
 			state.nodes=state.nodes.map(el=>el.id==id?{...el,...node}:el)
+		},
+
+		addEdge:(state,action)=>{
+			// const edge={
+			// 	id:nanoid(),
+			// 	data:action.payload
+			// }
+			// state.edges.push(edge)
+		},
+		removeEdge:(state,action)=>{
+			state.edges=state.edges.filter(el=>el.id!=action.payload.id)
+		},
+		updateEdge:(state,action)=>{
+			const edge=action.payload;
+			const id=action.payload.id
+			state.edges=state.edges.map(el=>el.id==id?{...el,...edge}:el)
 		}
 	}
 })
 
-export const {removeNode,updateNode,addNode}=nodeManagementSlice.actions;
+export const {removeNode,updateNode,addNode,removeEdge,updateEdge,addEdge}=nodeManagementSlice.actions;
 export default nodeManagementSlice.reducer
