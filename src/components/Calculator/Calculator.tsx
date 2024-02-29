@@ -35,6 +35,12 @@ export function Calculator(){
 	// Edge connect feature
 	const onConnect = useCallback(
     (connection:Connection) => setEdges((eds) => {
+			const sourceId=connection.source;
+			const node=getNodes().find(el=>el.id==sourceId)
+			console.log(node)
+			if (node.type !='num'){
+				connection={...connection,type:'custom-edge'};
+			}
 			return addEdge(connection, eds)
 		}),
     [setEdges],
