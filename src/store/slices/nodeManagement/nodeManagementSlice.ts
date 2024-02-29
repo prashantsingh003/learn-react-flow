@@ -6,6 +6,10 @@ export const nodeManagementSlice=createSlice({
 	name:'nodeManagement',
 	initialState,
 	reducers:{
+		updateNodes:(state,action)=>{
+			// console.log(action.payload)
+			state.nodes=[...state.nodes,...action.payload]
+		},
 		addNode:(state,action)=>{
 			const node={
 				id:nanoid(),
@@ -40,5 +44,5 @@ export const nodeManagementSlice=createSlice({
 	}
 })
 
-export const {removeNode,updateNode,addNode,removeEdge,updateEdge,addEdge}=nodeManagementSlice.actions;
+export const {removeNode,updateNode,addNode,updateNodes,removeEdge,updateEdge,addEdge}=nodeManagementSlice.actions;
 export default nodeManagementSlice.reducer
