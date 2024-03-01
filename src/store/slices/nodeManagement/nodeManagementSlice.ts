@@ -8,12 +8,12 @@ export const nodeManagementSlice=createSlice({
 	reducers:{
 		updateNodes:(state,action)=>{
 			// console.log(action.payload)
-			state.nodes=[...state.nodes,...action.payload]
+			state.nodes=action.payload
 		},
 		addNode:(state,action)=>{
 			const node={
 				id:nanoid(),
-				data:action.payload
+				...action.payload
 			}
 			state.nodes.push(node)
 		},

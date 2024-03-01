@@ -7,7 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Add, Multiply, NumNode, Result, Subtract } from "./Nodes";
 import { ColoredEdge } from "./Edges";
 import { useDispatch, useSelector } from "react-redux";
-import { updateNodes } from "../../store/slices/nodeManagement/nodeManagementSlice";
+import { addNode, updateNodes } from "../../store/slices/nodeManagement/nodeManagementSlice";
 
 const getNewID = () => (Math.random() + 1).toString(36).substring(7);
 
@@ -27,20 +27,14 @@ export function Calculator() {
 	const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>();
 	const { getNodes, getEdges } = useReactFlow();
 
-	const onNodesChange = useCallback(
-		(change) => {
-			const newNodes=applyNodeChanges(change, rdxNodes)
-			if (change.type == 'remove' && newNodes.some((el: Node) => el.type == 'num')) {
-				setNumNodeInUse(false);
-			}
-			setRdxNodes(newNodes)
-			setNodes((nds) => {
-				const updatedNodes = applyNodeChanges(change, nds)
-				return updatedNodes
-			})
-		},
-		[setNodes]
-	);
+	const onNodesChange = (change) => {
+		const newNodes=applyNodeChanges(change, rdxNodes)
+		if (change.type == 'remove' && newNodes.some((el: Node) => el.type == 'num')) {
+			setNumNodeInUse(false);
+		}
+		console.log(change,newNodes)
+		dispatch(updateNodes(newNodes))
+	};
 	const onEdgesChange = useCallback(
 		(changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
 		[setEdges]
@@ -50,7 +44,7 @@ export function Calculator() {
 	const onConnect = useCallback(
 		(connection: Connection) => setEdges((eds) => {
 			const sourceId = connection.source;
-			const node = getNodes().find(el => el.id == sourceId)
+			const node = rdxNodes.find(el => el.id == sourceId)
 			if (node.type != 'num') {
 				connection = { ...connection, type: 'custom-edge' };
 			}
@@ -58,12 +52,11 @@ export function Calculator() {
 		}),
 		[setEdges],
 	);
-	const calibrateResult = () => {
-		const nodes = getNodes()
-		const edges = getEdges()
+
+	useEffect(() => {
+		const nodes = rdxNodes
 		let res = 0;
 		let node = nodes.find(el => el.type = 'num')
-		// console.log(nodes)
 		if (!node) return;
 		const getNextNodeId = (sourceId: String) => edges.find((el) => el.source == sourceId)
 		while (node) {
@@ -85,21 +78,17 @@ export function Calculator() {
 			node = nodes.find((el) => el.id == nextNodeId)
 			setChainResult(res)
 		}
-	}
-	useEffect(calibrateResult, [nodes, edges])
+	}, [ edges])
 
 	// Edge connect prevent self refrence
-	const isValidConnection = useCallback(
-		(connection: Connection) => {
+	const isValidConnection = (connection: Connection) => {
 			const nodes = getNodes()
 			const res = connection.target == connection.source;
 			return !res;
-		},
-		[getNodes, getEdges],
-	);
+		};
 
 	//  DRag and drop feature
-	const onDrop = useCallback((e) => {
+	const onDrop = (e) => {
 		e.preventDefault()
 		const type = e.dataTransfer.getData('application/reactflow');
 		if (type == 'num') {
@@ -107,7 +96,7 @@ export function Calculator() {
 				alert('Empty node ' + inp)
 				return
 			}
-			const currNodes = getNodes();
+			const currNodes = rdxNodes;
 			if (currNodes.some(el => el.type == 'num')) {
 				alert('Number Node already exists ')
 				return
@@ -116,14 +105,12 @@ export function Calculator() {
 		}
 		const position = reactFlowInstance?.screenToFlowPosition({ x: e.clientX, y: e.clientY })
 		const node = {
-			id: getNewID(),
 			type: type,
 			position,
 			data: { val: inp },
 		}
-		setRdxNodes(rdxNodes.concat(node))
-		setNodes((nds) => nds.concat(node));
-	}, [reactFlowInstance, setInp,setRdxNodes,getNodes])
+		dispatch(addNode(node))
+	}
 
 	const onDragOver = useCallback((event) => {
 		event.preventDefault();
@@ -138,7 +125,7 @@ export function Calculator() {
 			</div>
 			<div style={{ width: '80vw', height: '50vh' }} className="rounded-lg">
 				<ReactFlow
-					nodes={nodes}
+					nodes={rdxNodes}
 					edgeTypes={edgeTypes}
 					isValidConnection={isValidConnection}
 					edges={edges}
