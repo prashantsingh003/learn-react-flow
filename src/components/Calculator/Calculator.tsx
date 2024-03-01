@@ -7,9 +7,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Add, Multiply, NumNode, Result, Subtract } from "./Nodes";
 import { ColoredEdge } from "./Edges";
 import { useDispatch, useSelector } from "react-redux";
-import { addNode, updateNodes } from "../../store/slices/nodeManagement/nodeManagementSlice";
+import { addNode, updateEdges, updateNodes } from "../../store/slices/nodeManagement/nodeManagementSlice";
 
-const getNewID = () => (Math.random() + 1).toString(36).substring(7);
 
 export function Calculator() {
 	const [inp, setInp] = useState<Number>(3)
@@ -20,72 +19,66 @@ export function Calculator() {
 	const dispatch = useDispatch()
 	// const defaultEdgeOptions = useMemo(()=>({ type: 'edgeTypes'}),[])
 
-	const [nodes, setNodes] = useState<Node[]>([]);
 	const rdxNodes = useSelector((state => state.nodes))
-	const setRdxNodes = (newNodes) => dispatch(updateNodes(newNodes))
-	const [edges, setEdges] = useState<Edge[]>([]);
+	const rdxEdges = useSelector((state => state.edges))
 	const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>();
-	const { getNodes, getEdges } = useReactFlow();
 
 	const onNodesChange = (change) => {
-		const newNodes=applyNodeChanges(change, rdxNodes)
+		const newNodes = applyNodeChanges(change, rdxNodes)
 		if (change.type == 'remove' && newNodes.some((el: Node) => el.type == 'num')) {
 			setNumNodeInUse(false);
 		}
-		console.log(change,newNodes)
 		dispatch(updateNodes(newNodes))
 	};
-	const onEdgesChange = useCallback(
-		(changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-		[setEdges]
-	);
+	const onEdgesChange = (changes) => {
+		const newEdges = applyEdgeChanges(changes, rdxEdges)
+		dispatch(updateEdges(newEdges))
+	};
 
 	// Edge connect feature
-	const onConnect = useCallback(
-		(connection: Connection) => setEdges((eds) => {
-			const sourceId = connection.source;
-			const node = rdxNodes.find(el => el.id == sourceId)
-			if (node.type != 'num') {
-				connection = { ...connection, type: 'custom-edge' };
-			}
-			return addEdge(connection, eds)
-		}),
-		[setEdges],
-	);
+	const onConnect = (connection: Connection) => {
 
-	useEffect(() => {
-		const nodes = rdxNodes
-		let res = 0;
-		let node = nodes.find(el => el.type = 'num')
-		if (!node) return;
-		const getNextNodeId = (sourceId: String) => edges.find((el) => el.source == sourceId)
-		while (node) {
-			switch (node.type) {
-				case 'mul':
-					res *= node.data.val
-					break;
-				case 'add':
-					res += node.data.val
-					break;
-				case 'sub':
-					res -= node.data.val
-					break;
-				default:
-					res += node.data.val
-					break;
-			}
-			const nextNodeId = getNextNodeId(node.id)?.target;
-			node = nodes.find((el) => el.id == nextNodeId)
-			setChainResult(res)
+		const sourceId = connection.source;
+		const node = rdxNodes.find(el => el.id == sourceId)
+		if (node.type != 'num') {
+			connection = { ...connection, type: 'custom-edge' };
 		}
-	}, [ edges])
+		const newEdges = addEdge(connection, rdxEdges);
+		dispatch(updateEdges(newEdges));
+	};
+	useEffect(() => {
+		let res = 0;
+		const nodes=rdxNodes
+		let node = nodes.find(el => el.type = 'num')
+		console.log(node)
+		// if (!node) return;
+		// const getNextNodeId = (sourceId: String) => rdxEdges.find((el) => el.source == sourceId)
+		// while (node) {
+		// 	switch (node.type) {
+		// 		case 'mul':
+		// 			res *= node.data.val
+		// 			break;
+		// 		case 'add':
+		// 			res += node.data.val
+		// 			break;
+		// 		case 'sub':
+		// 			res -= node.data.val
+		// 			break;
+		// 		default:
+		// 			res += node.data.val
+		// 			break;
+		// 	}
+		// 	const nextNodeId = getNextNodeId(node.id)?.target;
+		// 	node = rdxNodes.find((el) => el.id == nextNodeId)
+		// 	setChainResult(res)
+		// }
+	}, [rdxEdges])
 
 	// Edge connect prevent self refrence
 	const isValidConnection = (connection: Connection) => {
-			const nodes = getNodes()
-			const res = connection.target == connection.source;
-			return !res;
-		};
+		const res = connection.target == connection.source;
+		return !res;
+	};
 
 	//  DRag and drop feature
 	const onDrop = (e) => {
@@ -96,8 +89,7 @@ export function Calculator() {
 				alert('Empty node ' + inp)
 				return
 			}
-			const currNodes = rdxNodes;
-			if (currNodes.some(el => el.type == 'num')) {
+			if (rdxNodes.some(el => el.type == 'num')) {
 				alert('Number Node already exists ')
 				return
 			}
@@ -128,7 +120,7 @@ export function Calculator() {
 					nodes={rdxNodes}
 					edgeTypes={edgeTypes}
 					isValidConnection={isValidConnection}
-					edges={edges}
+					edges={rdxEdges}
 					nodeTypes={nodeTypes}
 					onNodesChange={onNodesChange}
 					onEdgesChange={onEdgesChange}
