@@ -109,11 +109,11 @@ export function Calculator() {
 
 	return (
 		<>
-			<div style={{ width: '80vw', }}>
-				<input type="number" className="p-2 outline-none rounded-md text-center w-full my-2" value={String(inp)} onChange={(e) => setInp(Number(e.target.value))} id="" />
+			<div style={{ width: '100%', }}>
+				<input type="number" className="p-2 border-4 outline-none rounded-md text-center w-full my-2" value={String(inp)} onChange={(e) => setInp(Number(e.target.value))} id="" />
 				<Options disableNum={numNodeInUse}></Options>
 			</div>
-			<div style={{ width: '80vw', height: '50vh' }} className="rounded-lg">
+			<div style={{ width: '100%', height: '50vh' }} className="rounded-lg">
 				<ReactFlow
 					nodes={rdxNodes}
 					edgeTypes={edgeTypes}
@@ -130,9 +130,9 @@ export function Calculator() {
 				>
 				</ReactFlow>
 			</div>
-			<div style={{ width: '80vw' }}>
+			<div style={{ width: '100%' }}>
 				<div className="text-lg mt-2 tracking-[.35em] hover:tracking-[.65em] ease-in duration-100"> Result</div>
-				<input placeholder="Result" type="number" disabled className="p-2 outline-none rounded-md text-center w-full my-2" value={String(chainResult)} />
+				<input placeholder="Result" type="number" disabled className="p-2 border-4 outline-none rounded-md text-center w-full my-2" value={String(chainResult)} />
 			</div>
 		</>
 	)

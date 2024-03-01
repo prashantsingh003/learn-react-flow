@@ -10,7 +10,8 @@
 }
 
 .container>div:hover {
-	border: 1px solid rgb(247, 245, 245);
+	border: 1px solid currentColor;
+	color: rgb(48, 103, 180);
 }
 
 .container>div.disabled {

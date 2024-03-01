@@ -1,7 +1,9 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import { Flow,DragDrop, Calculator } from './components'
+
+import '@mantine/core/styles.css';
+
+import { MantineProvider } from '@mantine/core';
+
+import { Flow,DragDrop, Calculator,AppForm } from './components'
 import './App.css'
 import { ReactFlowProvider } from 'reactflow'
 import { Provider } from 'react-redux'
@@ -11,17 +13,20 @@ function App() {
   // const [count, setCount] = useState(0)
   
   return (
-    <>
-    {/* <div><Flow></Flow></div> */}
-    <div>
-      {/* <DragDrop></DragDrop> */}
-      <Provider store={store}>
-        <ReactFlowProvider>
-          <Calculator></Calculator>
-        </ReactFlowProvider>
-      </Provider>
-    </div>
-    </>
+    <MantineProvider>
+      <div className='d-flex justify-center align-middle'>
+        {/* <div><Flow></Flow></div> */}
+        {/* <DragDrop></DragDrop> */}
+        <div style={{width:'clamp("min-content",50%,100%)',margin:'auto'}}>
+          <Provider store={store}>
+            <ReactFlowProvider>
+              <Calculator></Calculator>
+            </ReactFlowProvider>
+          </Provider>
+        </div>
+        {/* <AppForm/> */}
+      </div>
+    </MantineProvider>
   )
 }
 
