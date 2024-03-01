@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
-import { Handle, Position } from "reactflow";
+import { Handle, Node, Position } from "reactflow";
 import { v4 as uuid } from "uuid";
-export const Result=memo(({data})=>{
+export const Result=memo(({data}:Node)=>{
 	const [handleId,setHandleId]=useState<string>()
 	useEffect(()=>{
 		const id=uuid()

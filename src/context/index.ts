@@ -3,12 +3,12 @@ import { createContext, useContext } from "react";
 export const Context=createContext({
 	nodes:[],
 	edges:[],
-	addNode:(node)=>{},
-	updateNode:(id,node)=>{},
-	deleteNode:(id)=>{},
-	addEdge:(edge)=>{},
-	updateEdge:(id,edge)=>{},
-	deleteEdge:(id)=>{},
+	// addNode:(node)=>{},
+	// updateNode:(id,node)=>{},
+	// deleteNode:(id)=>{},
+	// addEdge:(edge)=>{},
+	// updateEdge:(id,edge)=>{},
+	// deleteEdge:(id)=>{},
 
 });
 

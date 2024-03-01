@@ -1,9 +1,9 @@
 
-import { memo, useEffect, useId, useState } from 'react';
-import { Handle, Position } from 'reactflow';
+import { memo, useEffect, useState } from 'react';
+import { Handle, Node, Position } from 'reactflow';
 import { v4 as uuid } from "uuid";
 
-export const Add=memo(({data,isConnectable})=>{
+export const Add=memo(({data}:Node)=>{
 	const [num,setNum]=useState<Number>(data.val);
 	const [handleIDs,setHandleIDs]=useState<string[]>([])
 	useEffect(()=>{

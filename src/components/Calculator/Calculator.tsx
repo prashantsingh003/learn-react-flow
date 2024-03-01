@@ -1,11 +1,11 @@
-import ReactFlow, { Connection, Edge, Node, ReactFlowInstance, addEdge, applyEdgeChanges, applyNodeChanges, getOutgoers, useEdgesState, useNodesState, useReactFlow } from "reactflow";
+import ReactFlow, { Connection, Edge, EdgeChange, Node, NodeChange, ReactFlowInstance, addEdge, applyEdgeChanges, applyNodeChanges, getOutgoers, useEdgesState, useNodesState, useReactFlow } from "reactflow";
 import { Options } from "./Options";
 import './calculator.css';
 import 'reactflow/dist/style.css';
 import 'reactflow/dist/base.css';
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Add, Multiply, NumNode, Result, Subtract } from "./Nodes";
-import { ColoredEdge } from "./Edges";
+import { DragEvent, useCallback, useEffect, useState } from "react";
+import { nodeTypes } from "./Nodes";
+import { edgeTypes } from "./Edges";
 import { useDispatch, useSelector } from "react-redux";
 import { addNode, updateEdges, updateNodes } from "../../store/slices/nodeManagement/nodeManagementSlice";
 
@@ -14,24 +14,21 @@ export function Calculator() {
 	const [inp, setInp] = useState<Number>(3)
 	const [chainResult, setChainResult] = useState<Number>(0)
 	const [numNodeInUse, setNumNodeInUse] = useState<Boolean>(false)
-	const nodeTypes = useMemo(() => ({ add: Add, sub: Subtract, mul: Multiply, num: NumNode, result: Result }), []);
-	const edgeTypes = useMemo(() => ({ 'custom-edge': ColoredEdge }), [])
 	const dispatch = useDispatch()
-	const { getNodes, getEdges } = useReactFlow();
+	// const { getNodes, getEdges } = useReactFlow();
 	// const defaultEdgeOptions = useMemo(()=>({ type: 'edgeTypes'}),[])
 
-	const rdxNodes = useSelector((state => state.nodes))
-	const rdxEdges = useSelector((state => state.edges))
+	const {nodes:rdxNodes,edges:rdxEdges}:{nodes:Node[],edges:Edge[]} = useSelector(((state:any) => state.flow))
 	const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>();
 
-	const onNodesChange = (change) => {
+	const onNodesChange = (change:NodeChange[]) => {
 		const newNodes = applyNodeChanges(change, rdxNodes)
-		if (change.type == 'remove' && newNodes.some((el: Node) => el.type == 'num')) {
+		if (change[0].type == 'remove' && !newNodes.find((el: Node) => el.type == 'num')) {
 			setNumNodeInUse(false);
 		}
 		dispatch(updateNodes(newNodes))
 	};
-	const onEdgesChange = (changes) => {
+	const onEdgesChange = (changes:EdgeChange[]) => {
 		const newEdges = applyEdgeChanges(changes, rdxEdges)
 		dispatch(updateEdges(newEdges))
 	};
@@ -41,7 +38,8 @@ export function Calculator() {
 
 		const sourceId = connection.source;
 		const node = rdxNodes.find(el => el.id == sourceId)
-		if (node.type != 'num') {
+		if (node && node.type != 'num') {
+			//@ts-ignore
 			connection = { ...connection, type: 'custom-edge' };
 		}
 		const newEdges = addEdge(connection, rdxEdges);
@@ -49,8 +47,7 @@ export function Calculator() {
 	};
 	useEffect(() => {
 		let res = 0;
-		const currNodes=getNodes()
-		let node = currNodes.find(el => el.type = 'num')
+		let node = rdxNodes.find((el) => el.type === 'num')
 		if (!node) return;
 		const getNextNodeId = (sourceId: String) => rdxEdges.find((el) => el.source == sourceId)
 		while (node) {
@@ -68,7 +65,8 @@ export function Calculator() {
 					res += node.data.val
 					break;
 			}
-			const nextNodeId = getNextNodeId(node.id)?.target;
+			//@ts-ignore
+			const nextNodeId = getNextNodeId(node.id).target;
 			node = rdxNodes.find((el) => el.id == nextNodeId)
 			setChainResult(res)
 		}
@@ -81,7 +79,7 @@ export function Calculator() {
 	};
 
 	//  DRag and drop feature
-	const onDrop = (e) => {
+	const onDrop = (e:DragEvent) => {
 		e.preventDefault()
 		const type = e.dataTransfer.getData('application/reactflow');
 		if (type == 'num') {
@@ -104,7 +102,7 @@ export function Calculator() {
 		dispatch(addNode(node))
 	}
 
-	const onDragOver = useCallback((event) => {
+	const onDragOver = useCallback((event:DragEvent) => {
 		event.preventDefault();
 		event.dataTransfer.dropEffect = 'move';
 	}, []);

@@ -1,10 +1,10 @@
 
 import { memo, useEffect, useState } from 'react';
-import { Handle, Position } from 'reactflow';
+import { Handle, Node, Position } from 'reactflow';
 
 import { v4 as uuid } from "uuid";
 
-export const Multiply = memo(({data})=>{
+export const Multiply = memo(({data}:Node)=>{
 	const [num,setNum]=useState<Number>(data.val)
 	const [handleIDs,setHandleIDs]=useState<string[]>([])
 	useEffect(()=>{

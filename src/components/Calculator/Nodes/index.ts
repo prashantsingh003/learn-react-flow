@@ -5,3 +5,4 @@ import { NumNode } from "./NumNode";
 import { Result } from "./Result";
 
 export { Add, Subtract, Multiply, NumNode, Result }
+export const nodeTypes={ add: Add, sub: Subtract, mul: Multiply, num: NumNode, result: Result }
