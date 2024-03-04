@@ -65,8 +65,8 @@ export function Calculator() {
 					res += node.data.val
 					break;
 			}
-			//@ts-ignore
-			const nextNodeId = getNextNodeId(node.id).target;
+			const nxtNode=getNextNodeId(node.id)
+			const nextNodeId = nxtNode && nxtNode.target;
 			node = rdxNodes.find((el) => el.id == nextNodeId)
 			setChainResult(res)
 		}
