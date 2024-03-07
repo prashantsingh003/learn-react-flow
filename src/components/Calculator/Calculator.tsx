@@ -1,8 +1,5 @@
 import ReactFlow, { Connection, Edge, EdgeChange, Node, NodeChange, ReactFlowInstance, addEdge, applyEdgeChanges, applyNodeChanges, getOutgoers, useEdgesState, useNodesState, useReactFlow } from "reactflow";
 import { Options } from "./Options";
-import './calculator.css';
-import 'reactflow/dist/style.css';
-import 'reactflow/dist/base.css';
 import { DragEvent, useCallback, useEffect, useState } from "react";
 import { nodeTypes } from "./Nodes";
 import { edgeTypes } from "./Edges";
@@ -20,7 +17,7 @@ export function Calculator() {
 
 	const {nodes:rdxNodes,edges:rdxEdges}:{nodes:Node[],edges:Edge[]} = useSelector(((state:any) => state.flow))
 	const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>();
-
+ console.log(useSelector(((state:any) => state.flow)))
 	const onNodesChange = (change:NodeChange[]) => {
 		const newNodes = applyNodeChanges(change, rdxNodes)
 		if (change[0].type == 'remove' && !newNodes.find((el: Node) => el.type == 'num')) {

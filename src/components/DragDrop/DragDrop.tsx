@@ -3,9 +3,8 @@ import ReactFlow, {
   addEdge,
   useNodesState,
   useEdgesState,
-  Controls,Node, Edge, MiniMap
+  Controls,Node, Edge
 } from 'reactflow';
-import './DragDrop.css'
 import { TopOptions } from './TopOptions';
 import { useCallback, useRef, useState } from 'react';
 
@@ -83,7 +82,7 @@ export function DragDrop(){
 	return (
 		<ReactFlowProvider>
 			<TopOptions></TopOptions>
-			<div className="reactflow-wrapper"  style={{ width: '80vw', height: '80vh' }} ref={reactFlowWrapper}>
+			<div className="reactflow-wrapper"  style={{ width: '100%', height: '80vh' }} ref={reactFlowWrapper}>
 				<ReactFlow
 					nodes={nodes}
 					edges={edges}

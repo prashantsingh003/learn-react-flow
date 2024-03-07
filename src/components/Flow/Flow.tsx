@@ -1,6 +1,6 @@
 import ReactFlow , { Controls, useNodesState, useEdgesState, addEdge, Node, Edge } from 'reactflow';
 import 'reactflow/dist/base.css';
-import '../flow.css'
+import './flow.css'
 import { useCallback, useState } from 'react';
 
 import TurboNode, { TurboNodeData } from './TurboNode';
@@ -109,12 +109,12 @@ export function Flow(){
 
 	return (
 		<>
-			<div style={{ width: '80vw', height: 'auto' }}>
+			<div style={{ width: '100%', height: 'auto' }}>
         <input type="text" value={inp.title} placeholder='Title' onChange={(e)=>setInp(prev=>({...prev,title:e.target.value}))} />
         <input type="text" value={inp.subLine} placeholder='Subline' onChange={(e)=>setInp(prev=>({...prev,subLine:e.target.value}))} />
         <button onClick={addNode}>Add node</button>
 			</div>
-			<div style={{ width: '80vw', height: '80vh' }}>
+			<div style={{ width: '100%', height: '80vh' }}>
 				<ReactFlow
 					nodes={nodes}
 					edges={edges}
