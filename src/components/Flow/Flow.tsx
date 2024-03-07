@@ -98,8 +98,6 @@ export function Flow(){
 			type: 'turbo',
 		}
 		setNodes(prev=>{
-			console.log(prev)
-			console.log([...prev,node])
 			return [...prev,node]
 		})
 		setInp({title:'',subLine:''})

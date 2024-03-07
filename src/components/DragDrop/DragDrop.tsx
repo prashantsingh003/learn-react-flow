@@ -82,7 +82,7 @@ export function DragDrop(){
 	return (
 		<ReactFlowProvider>
 			<TopOptions></TopOptions>
-			<div className="reactflow-wrapper"  style={{ width: '100%', height: '80vh' }} ref={reactFlowWrapper}>
+			<div className="reactflow-wrapper"  style={{ width: '100%', height: '50vh' }} ref={reactFlowWrapper}>
 				<ReactFlow
 					nodes={nodes}
 					edges={edges}

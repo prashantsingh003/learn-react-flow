@@ -2,11 +2,34 @@ import { useSelector } from "react-redux";
 import {NavLink} from "react-router-dom";
 import { RootState } from "../../store";
 import { FlowCalculator } from "./FlowCalculator";
+import { ReactFlowProvider } from "reactflow";
 
 export function FastapoiCalculator(){
 	const isAuthenticated=useSelector((state:RootState)=>!!state.auth.user)
+	const {userFlowList}=useSelector((state:RootState)=>state.userFlow)
 	if(isAuthenticated){
-		return (<FlowCalculator/>)
+		return (
+			<div className="flex flex-col gap-y-2">
+				<div className="flex justify-between">
+					<div className="rounded-lg p-2 bg-gray-300 text-lg">Select Flow</div>
+					<div>
+						<select
+							className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+							defaultValue="unnamed"
+						>
+							{userFlowList.map((option, index) => (
+								<option key={index}>{option.name}</option>
+							))}
+						</select>
+					</div>
+				</div>
+				<div className="grow">
+					<ReactFlowProvider>
+						<FlowCalculator></FlowCalculator>
+					</ReactFlowProvider>
+				</div>
+			</div>
+		)
 	}
 	else{
 		return (

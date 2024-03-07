@@ -9,7 +9,6 @@ export const Multiply = memo(({data}:Node)=>{
 	const [handleIDs,setHandleIDs]=useState<string[]>([])
 	useEffect(()=>{
 		let arr=[uuid(),uuid()]
-		console.log('tt')
 		setHandleIDs(arr)
 	},[])
 	return (

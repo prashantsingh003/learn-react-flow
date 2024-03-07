@@ -5,12 +5,12 @@ export type User={
 	id:string
 }
 export type AuthState={user:User|null}
-const getUser=()=>{
+const readUserFromLocal=()=>{
 	const data:string|null=localStorage.getItem('user') ;
 	const user:User|null=data && JSON.parse(data)
 	return user;
 }
-const initialState:AuthState={user:getUser()}
+const initialState:AuthState={user:readUserFromLocal()}
 const authSlice=createSlice({
 	name:'authSlice',
 	initialState,

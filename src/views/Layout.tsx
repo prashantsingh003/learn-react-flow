@@ -8,21 +8,21 @@ import { RootState } from '../store';
 
 
 export function Layout() {
-	const {user}=useSelector((state:RootState)=>state.auth);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [isAccountOpen, setIsAccountOpen] = useState(false);
-	const [isAuthenticated,setIsAuthenticated]=useState<Boolean>(!!user)
+	const isAuthenticated=useSelector((state:RootState)=>!!state.auth.user)
 
 	const listClass = "border border-gray-300 p-4 hover:bg-gray-100 transition duration-300 rounded-lg"
 	const linkClass = "block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0"
 	const logOutClass = "block py-2 pr-4 pl-3 text-red-700 duration-200 border-b border-gray-100 hover:text-red-400 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0"
 	useEffect(() => navigate('/flow'), [])
-	useEffect(()=>setIsAuthenticated(!!user),[user])
 	return (
 		<div>
-			<header>
-				REACT FLOW
+			<header className='my-1'>
+				<h1 className='p-2 font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center text-gray-500'>
+					REACT FLOW
+				</h1>
 			</header>
 			<div className="w-full flex flex-col sm:flex-row flex-grow overflow-hidden">
 				<div className="sm:w-1/4 md:1/6 w-full flex-shrink flex-grow-0 p-4">

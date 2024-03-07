@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios,{AxiosError} from 'axios';
 import { useNavigate } from "react-router-dom";
 import { createUserApi } from '../../utils/api';
 import { useDispatch } from 'react-redux';
@@ -27,11 +27,10 @@ export const Signup: React.FC = () => {
     axios.post(createUserApi,formData)
 		.then(({data}:{data:User})=>{
       dispatch(setUser(data))
-      console.log(data)
       setFormData(initialFormData)
       navigate('/')
 		})
-    .catch((err)=>{
+    .catch((err:AxiosError)=>{
       setMessage('Invalid data')
       setFormData({...formData,password:'',confirmPassword:''})
     })
