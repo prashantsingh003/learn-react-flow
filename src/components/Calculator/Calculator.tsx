@@ -17,7 +17,7 @@ export function Calculator() {
 
 	const {nodes:rdxNodes,edges:rdxEdges}:{nodes:Node[],edges:Edge[]} = useSelector(((state:any) => state.flow))
 	const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>();
- console.log(useSelector(((state:any) => state.flow)))
+
 	const onNodesChange = (change:NodeChange[]) => {
 		const newNodes = applyNodeChanges(change, rdxNodes)
 		if (change[0].type == 'remove' && !newNodes.find((el: Node) => el.type == 'num')) {

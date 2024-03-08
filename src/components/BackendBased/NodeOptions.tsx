@@ -13,7 +13,7 @@
 					<div className={`dndnode output`} onDragStart={(event) => onDragStart(event, 'num')} draggable>
 						Number
 					</div>
-					<div className="dndnode" onDragStart={(event) => onDragStart(event, 'operator')} draggable>
+					<div className="dndnode" onDragStart={(event) => onDragStart(event, 'operation')} draggable>
 						Operator Node
 					</div>
 					<div className="dndnode output" onDragStart={(event) => onDragStart(event, 'result')} draggable>

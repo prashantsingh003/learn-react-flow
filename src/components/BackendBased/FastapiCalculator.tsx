@@ -1,117 +1,141 @@
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback, useEffect } from "react";
 import axios from 'axios';
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
 import { FlowCalculator } from "./FlowCalculator";
 import { ReactFlowProvider } from "reactflow";
 import { useState } from "react";
 import { FlowData, getSelectedFlowData, getUserFlows } from "../../store/slices/flowManagement/flowManagementSlice";
 import { FlowOption } from "./FlowOption";
-import { createFlowApi, deleteFlowApi, flowApi, renameFlowApi } from "../../utils/api";
+import { createFlowApi, deleteFlowApi, flowApi, renameFlowApi, updateFlowApi } from "../../utils/api";
 
-export function FastapoiCalculator(){
-	const isAuthenticated=useSelector((state:RootState)=>!!state.auth.user)
-	const dispatch=useDispatch<AppDispatch>();
-	const {userFlowList:flowOptions}=useSelector((state:RootState)=>state.userFlow)
-	const {user}=useSelector((state:RootState)=>state.auth)
+export function FastapoiCalculator() {
+	const isAuthenticated = useSelector((state: RootState) => !!state.auth.user)
+	const dispatch = useDispatch<AppDispatch>();
+	const { userFlowList: flowOptions } = useSelector((state: RootState) => state.userFlow)
+	const { user } = useSelector((state: RootState) => state.auth)
+	const {currentFlow}=useSelector((state:RootState)=>state.userFlow)
 
-	const [selectedFlow,setSelectedFlow]=useState<FlowData|null>(null)
-	const [msg,setMsg]=useState<{msg:String,type:String} | null>(null)
+	const [selectedFlow, setSelectedFlow] = useState<FlowData | null>(null)
+	const [msg, setMsg] = useState<{ msg: String, type: String } | null>(null)
 
-	const refreshFlowsList=()=>user && dispatch(getUserFlows(user.id))
+	const refreshFlowsList = () => user && dispatch(getUserFlows(user.id))
 
-	const renameFlow=(flow_name:String)=>{
-		if(!selectedFlow) return;
-		axios.put(renameFlowApi+selectedFlow.id,{flow_name})
-		.then((res:any)=>{
-			console.log(res)
-			refreshFlowsList()
-			setMsg({msg:'Successfully Updated Name to '+flow_name,type:'success'})
-		})
-		.catch((err:Error)=>{
-			console.log('unable to rename flow')
-			console.error(err)
-			setMsg({msg:'Oops!! Error occured while renaming, please try again',type:'error'})
-		})
+	const renameFlow = (flow_name: String) => {
+		if (!selectedFlow) return;
+		axios.put(renameFlowApi + selectedFlow.id, { flow_name })
+			.then((res: any) => {
+				console.log(res)
+				refreshFlowsList()
+				setMsg({ msg: 'Successfully Updated Name to ' + flow_name, type: 'success' })
+			})
+			.catch((err: Error) => {
+				console.log('unable to rename flow')
+				console.error(err)
+				setMsg({ msg: 'Oops!! Error occured while renaming, please try again', type: 'error' })
+			})
 	}
 
-	const deleteFlow=()=>{
-		if(!selectedFlow) return;
-		if (!confirm("Delete flow: "+selectedFlow.name+" ?")) return;
-		axios.delete(deleteFlowApi+selectedFlow.id)
-		.then((res:any)=>{
-			console.log(res)
-			refreshFlowsList()
-			setMsg({msg:'Successfully Deleted Flow : '+selectedFlow.name,type:'success'})
-		})
-		.catch((err:Error)=>{
-			console.log('unable to delete flow')
-			console.error(err)
-			setMsg({msg:'Oops!! Error occured deleting flow',type:'error'})
-		})
+	const deleteFlow = () => {
+		if (!selectedFlow) return;
+		if (!confirm("Delete flow: " + selectedFlow.name + " ?")) return;
+		axios.delete(deleteFlowApi + selectedFlow.id)
+			.then((res: any) => {
+				console.log(res)
+				refreshFlowsList()
+				setSelectedFlow(null)
+				setMsg({ msg: 'Successfully Deleted Flow : ' + selectedFlow.name, type: 'success' })
+			})
+			.catch((err: Error) => {
+				console.log('unable to delete flow')
+				console.error(err)
+				setMsg({ msg: 'Oops!! Error occured deleting flow', type: 'error' })
+			})
 	}
 
-	const addNewFlow=()=>{
-		const newFlow={
-			nodes:[],
-			edges:[],
-			owner_id:user?.id
+	const updateFlow=()=>{
+		if (!currentFlow || !selectedFlow) return;
+		const flow={nodes:currentFlow.nodes,edges:currentFlow.edges}
+		axios.put(updateFlowApi + selectedFlow.id,flow)
+			.then((res: any) => {
+				console.log(res)
+				setMsg({ msg: 'Successfully Updated Flow : ' + selectedFlow.name, type: 'success' })
+			})
+			.catch((err: Error) => {
+				console.log('unable to delete flow')
+				console.error(err)
+				setMsg({ msg: 'Oops!! Error occured updateing flow', type: 'error' })
+			})
+	}
+	const addNewFlow = () => {
+		const newFlow = {
+			nodes: [],
+			edges: [],
+			owner_id: user?.id
 		}
-		axios.post(createFlowApi+user?.id,newFlow)
-		.then(res=>{
-			console.log(res)
-			refreshFlowsList()
-			setMsg({msg:'Successfully Added Flow ',type:'success'})
-		})
-		.catch((err:Error)=>{
-			setMsg({msg:'Oops!! Error occured while adding flow, please try again',type:'error'})
-		})
+		axios.post(createFlowApi + user?.id, newFlow)
+			.then(res => {
+				refreshFlowsList()
+				setMsg({ msg: 'Successfully Added Flow ', type: 'success' })
+			})
+			.catch((err: Error) => {
+				setMsg({ msg: 'Oops!! Error occured while adding flow, please try again', type: 'error' })
+			})
 	}
-	
-	useEffect(()=>{
+
+	useEffect(() => {
 		dispatch(getSelectedFlowData(selectedFlow?.id))
 	}
-	,[selectedFlow])
+		, [selectedFlow])
 
-	useEffect(()=>{
-		setSelectedFlow(prev=>{
-			const updatedSelectedFlow=flowOptions.find(el=>el.id==prev?.id)
-			return updatedSelectedFlow?updatedSelectedFlow:prev;
+	useEffect(() => {
+		setSelectedFlow(prev => {
+			const updatedSelectedFlow = flowOptions.find(el => el.id == prev?.id)
+			return updatedSelectedFlow ? updatedSelectedFlow : prev;
 		})
 	}
-	,[flowOptions])
+		, [flowOptions])
 
-	if(isAuthenticated){
+	if (isAuthenticated) {
 		return (
 			<div className="flex flex-col gap-y-2">
 				<div className="">
-					<FlowOption 
-						flowOptions={flowOptions} 
-						selectedFlow={selectedFlow} 
+					<FlowOption
+						flowOptions={flowOptions}
+						selectedFlow={selectedFlow}
 						setSelectedFlow={setSelectedFlow}
 						onFlowRename={renameFlow}
 						onDeleteFlow={deleteFlow}
 						onAddNewFlow={addNewFlow}
+						onSaveFlow={updateFlow}
 					></FlowOption>
 				</div>
 				<div className="grow">
-					<ReactFlowProvider>
-						<FlowCalculator></FlowCalculator>
-					</ReactFlowProvider>
+					{currentFlow ?
+						<ReactFlowProvider>
+							<FlowCalculator></FlowCalculator>
+						</ReactFlowProvider>
+						:
+						<div className="items-center flex justify-center p-2 h-20 md:h-56">
+							<div className="text-white bg-blue-500 text-2xl p-3 rounded-lg drop-shadow-2xl hover:scale-105 duration-100">
+								Please select a flow
+							</div>
+						</div>
+					}
 				</div>
-				{ msg &&
+				{msg &&
 					<div>
-						<div className={`border border-${msg.type=='success'?'green':'red'}-600 text-${msg.type=='success'?'green':'red'}-600 bg-${msg.type=='success'?'green':'red'}-100 rounded-lg w-full p-2 text-center relative`}>
+						<div className={`border border-${msg.type == 'success' ? 'green' : 'red'}-600 text-${msg.type == 'success' ? 'green' : 'red'}-600 bg-${msg.type == 'success' ? 'green' : 'red'}-100 rounded-lg w-full p-2 text-center relative`}>
 							{msg.msg}
-							<button onClick={()=>{setMsg(null)}} className="border border-slate-600 text-slate-600 bg-slate-100 absolute h-full aspect-square p-1 rounded-lg right-0 top-0">X</button>
+							<button onClick={() => { setMsg(null) }} className="border border-slate-600 text-slate-600 bg-slate-100 absolute h-full aspect-square p-1 rounded-lg right-0 top-0">X</button>
 						</div>
 					</div>
 				}
 			</div>
 		)
 	}
-	else{
+	else {
 		return (
 			<div className="flex flex-col items-center justify-center h-full">
 				<div className="max-w-md p-6 bg-gray-100 border border-gray-300 rounded-lg text-center">

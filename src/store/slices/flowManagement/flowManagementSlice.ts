@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { getFlowApi, getUserFlowsApi } from "../../../utils/api";
+import { Edge, Node } from "reactflow";
 export type FlowData = {
 	name: String;
 	id: String;
@@ -32,6 +33,17 @@ const flowManagementSlice = createSlice({
 		},
 		clearCurrentFlow(state) {
 			state.currentFlow = null;
+		},
+
+		replaceNodes(state,{payload}:{payload:Node[]}){
+			if(state.currentFlow)state.currentFlow.nodes=payload;
+		},
+		replaceEdges(state,{payload}:{payload:Edge[]}){
+			if(state.currentFlow)state.currentFlow.edges=payload;
+		},
+
+		addNode(state,{payload:node}){
+			state.currentFlow?.nodes.push(node)
 		}
 	},
 	extraReducers(builder) {
@@ -76,5 +88,6 @@ const getSelectedFlowData = createAsyncThunk(
 	}
 )
 export const { setUserFlows, clearUserFlows, clearCurrentFlow } = flowManagementSlice.actions;
+export const { replaceEdges, replaceNodes, addNode } = flowManagementSlice.actions;
 export { getSelectedFlowData, getUserFlows }
 export default flowManagementSlice.reducer;

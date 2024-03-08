@@ -1,5 +1,5 @@
 import ReactFlow , { Controls, useNodesState, useEdgesState, addEdge, Node, Edge } from 'reactflow';
-import 'reactflow/dist/base.css';
+
 import './flow.css'
 import { useCallback, useState } from 'react';
 

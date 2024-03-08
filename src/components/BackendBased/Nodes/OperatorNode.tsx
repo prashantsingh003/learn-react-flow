@@ -4,7 +4,7 @@ export function OperatorNode(node:any){
 	const [selectedOption,setSelectedOption]=useState<String>()
 	return (
 		
-	<div>
+	<div className="text-slate-900 p-3 bg-red-300">
 		<select
 			onChange={(e:React.ChangeEvent<HTMLSelectElement>)=>setSelectedOption(e.currentTarget.value)}
 			className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"

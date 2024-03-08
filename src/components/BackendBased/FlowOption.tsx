@@ -4,24 +4,26 @@ interface FlowOptionProps {
 	flowOptions: FlowData[];
 	selectedFlow: FlowData | null;
 	setSelectedFlow: React.Dispatch<React.SetStateAction<FlowData | null>>
-	onFlowRename:Function;
-	onDeleteFlow:Function;
-	onAddNewFlow:Function;
+	onFlowRename: Function;
+	onDeleteFlow: Function;
+	onAddNewFlow: Function;
+	onSaveFlow: Function;
 }
 
-export function FlowOption({ flowOptions, selectedFlow, setSelectedFlow, onFlowRename, onDeleteFlow, onAddNewFlow }: FlowOptionProps) {
-	const [flowName,setFlowname]=useState<String>()
+export function FlowOption({ flowOptions, selectedFlow, setSelectedFlow, onFlowRename, onDeleteFlow, onAddNewFlow, onSaveFlow }: FlowOptionProps) {
+	const [flowName, setFlowname] = useState<String>()
 	const handleSelectFlow = ((e: React.ChangeEvent<HTMLSelectElement>) => {
 		const flow = flowOptions.find(el => el.id == e.currentTarget.value)
 		if (flow) setSelectedFlow(flow);
 		else setSelectedFlow(null)
 	})
-	useEffect(()=>{
-		setFlowname(''+(selectedFlow && selectedFlow.name))}
-	,[selectedFlow])
+	useEffect(() => {
+		setFlowname('' + (selectedFlow && selectedFlow.name))
+	}
+		, [selectedFlow])
 	return (
 		<div className="flex flex-col md:flex-row justify-between align-middle">
-			{ Boolean(flowOptions.length) &&
+			{Boolean(flowOptions.length) &&
 				<div className="my-2 md:m-0 flex">
 					<label htmlFor="selectFlow" className="p-1 flex items-center text-nowrap">Select Flow</label>
 					<select
@@ -39,21 +41,26 @@ export function FlowOption({ flowOptions, selectedFlow, setSelectedFlow, onFlowR
 			}
 			{
 				selectedFlow &&
-					<>
-						<div className="my-2 md:m-0 flex">
-							<input
-								type="text"
-								value={'' + flowName}
-								onChange={(e) => setFlowname(e.target.value)}
-								placeholder="Enter text"
-								className="border grow border-gray-300 bg-white rounded-md shadow-sm p-2 mx-1 focus:outline-none focus:border-blue-500"
-							/>
-							<button className="text-sm bg-green-400 rounded-lg p-2 border-gray-400 text-white" onClick={() => {onFlowRename(flowName)}}>Rename</button>
-						</div>
-						<button className="my-2 md:m-0 text-sm bg-red-400 rounded-lg p-2 border-gray-400 text-white" onClick={() => {onDeleteFlow()}}>Delete</button>
-					</>
+				<>
+					<div className="my-2 md:m-0 flex">
+						<input
+							type="text"
+							value={'' + flowName}
+							onChange={(e) => setFlowname(e.target.value)}
+							placeholder="Enter text"
+							className="border grow border-gray-300 bg-white rounded-md shadow-sm p-2 mx-1 focus:outline-none focus:border-blue-500"
+						/>
+						<button className="hover:scale-105 duration-100 font-bold bg-blue-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onFlowRename(flowName) }}>Rename</button>
+					</div>
+				</>
 			}
-			<button className="my-2 md:m-0 text-sm bg-blue-400 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onAddNewFlow() }}>Add New Flow</button>
+			<div>
+				{selectedFlow &&<>
+					<button className="hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-yellow-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onSaveFlow() }}>Save</button>
+					<button className="hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-red-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onDeleteFlow() }}>Delete</button>
+				</>}
+				<button className="hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-green-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onAddNewFlow() }}>Add New Flow</button>
+			</div>
 		</div>
 	)
 }
