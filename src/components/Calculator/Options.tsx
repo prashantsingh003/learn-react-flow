@@ -1,4 +1,4 @@
-import './calculator.css'
+import styles from './calculator.module.css'
 export function Options({disableNum=false}:{disableNum:Boolean}){
 	
 	const onDragStart=(event:any,nodeType:string)=>{	
@@ -7,7 +7,7 @@ export function Options({disableNum=false}:{disableNum:Boolean}){
 	}
 	return (
 		<aside>
-			<div className={"my-3 container"}>
+			<div className={"my-3 "+styles.container}>
 				<div className={`dndnode output ${disableNum?'disabled':''}`} onDragStart={(event) => onDragStart(event, 'num')} draggable>
 					Number
 				</div>

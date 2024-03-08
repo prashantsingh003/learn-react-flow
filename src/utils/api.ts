@@ -8,5 +8,8 @@ export const updateUserApi=BASE_URL+"/user/update/"
 export const updateUserPasswordApi=BASE_URL+"/user/change-password/"
 
 export const flowApi=BASE_URL+"/flow/";
+export const createFlowApi=BASE_URL+"/flow/";
+export const deleteFlowApi=BASE_URL+"/flow/";
+export const getFlowApi=BASE_URL+"/flow/";
 export const getUserFlowsApi=BASE_URL+"/flow/user/";
 export const renameFlowApi=BASE_URL+"/flow/rename/";

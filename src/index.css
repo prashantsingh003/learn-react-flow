@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+#root {
+  max-width: 1280px;
+  max-height: min(100vh,1280px);
+  margin: 0 auto;
+}

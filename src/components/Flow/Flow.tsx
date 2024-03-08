@@ -112,7 +112,7 @@ export function Flow(){
         <input type="text" value={inp.subLine} placeholder='Subline' onChange={(e)=>setInp(prev=>({...prev,subLine:e.target.value}))} />
         <button onClick={addNode}>Add node</button>
 			</div>
-			<div style={{ width: '100%', height: '80vh' }}>
+			<div style={{ width: '100%', height: '50vh' }}>
 				<ReactFlow
 					nodes={nodes}
 					edges={edges}

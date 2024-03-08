@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios,{AxiosError} from 'axios';
 import { useNavigate } from "react-router-dom";
-import { createUserApi } from '../../utils/api';
+import { createUserApi } from '../utils/api';
 import { useDispatch } from 'react-redux';
-import { setUser,User } from '../../store/slices/authSlice/authSlice';
+import { setUser,User } from '../store/slices/authSlice/authSlice';
 // import userLog
 const initialFormData={
   email: '',
@@ -28,7 +28,7 @@ export const Signup: React.FC = () => {
 		.then(({data}:{data:User})=>{
       dispatch(setUser(data))
       setFormData(initialFormData)
-      navigate('/')
+      navigate('/calculator')
 		})
     .catch((err:AxiosError)=>{
       setMessage('Invalid data')

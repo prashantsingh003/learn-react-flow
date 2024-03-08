@@ -1,11 +1,12 @@
-import { useState } from "react"
+import React, { useState } from "react"
 
-export function OperatorNode(node){
-	const [selectedOption,setSelectedOption]=useState()
+export function OperatorNode(node:any){
+	const [selectedOption,setSelectedOption]=useState<String>()
 	return (
+		
+	<div>
 		<select
-			value={selectedOption}
-			onChange={(e)=>setSelectedOption(e.target.value)}
+			onChange={(e:React.ChangeEvent<HTMLSelectElement>)=>setSelectedOption(e.currentTarget.value)}
 			className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
 		>
 			<option value="">Select an operation</option>
@@ -14,5 +15,6 @@ export function OperatorNode(node){
 			<option value="multiply">Multiply</option>
 			<option value="divide">Divide</option>
 		</select>
+	</div>
 	)
 }

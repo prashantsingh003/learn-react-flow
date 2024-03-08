@@ -2,7 +2,6 @@
 import '@mantine/core/styles.css';
 import axios from 'axios';
 import { MantineProvider } from '@mantine/core';
-import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState,AppDispatch } from './store'
 import { Router } from './router';
