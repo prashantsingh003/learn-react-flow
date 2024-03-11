@@ -26,7 +26,6 @@ export function FastapoiCalculator() {
 		if (!selectedFlow) return;
 		axios.put(renameFlowApi + selectedFlow.id, { flow_name })
 			.then((res: any) => {
-				console.log(res)
 				refreshFlowsList()
 				setMsg({ msg: 'Successfully Updated Name to ' + flow_name, type: 'success' })
 			})
@@ -42,7 +41,6 @@ export function FastapoiCalculator() {
 		if (!confirm("Delete flow: " + selectedFlow.name + " ?")) return;
 		axios.delete(deleteFlowApi + selectedFlow.id)
 			.then((res: any) => {
-				console.log(res)
 				refreshFlowsList()
 				setSelectedFlow(null)
 				setMsg({ msg: 'Successfully Deleted Flow : ' + selectedFlow.name, type: 'success' })
@@ -59,7 +57,6 @@ export function FastapoiCalculator() {
 		const flow={nodes:currentFlow.nodes,edges:currentFlow.edges}
 		axios.put(updateFlowApi + selectedFlow.id,flow)
 			.then((res: any) => {
-				console.log(res)
 				setMsg({ msg: 'Successfully Updated Flow : ' + selectedFlow.name, type: 'success' })
 			})
 			.catch((err: Error) => {
@@ -83,7 +80,9 @@ export function FastapoiCalculator() {
 				setMsg({ msg: 'Oops!! Error occured while adding flow, please try again', type: 'error' })
 			})
 	}
-
+	const refreshFlow=()=>{
+		dispatch(getSelectedFlowData(selectedFlow?.id))
+	}
 	useEffect(() => {
 		dispatch(getSelectedFlowData(selectedFlow?.id))
 	}
@@ -114,7 +113,7 @@ export function FastapoiCalculator() {
 				<div className="grow">
 					{currentFlow ?
 						<ReactFlowProvider>
-							<FlowCalculator></FlowCalculator>
+							<FlowCalculator onSaveFlow={updateFlow} refreshFlow={refreshFlow}></FlowCalculator>
 						</ReactFlowProvider>
 						:
 						<div className="items-center flex justify-center p-2 h-20 md:h-56">

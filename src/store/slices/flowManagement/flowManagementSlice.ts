@@ -44,6 +44,13 @@ const flowManagementSlice = createSlice({
 
 		addNode(state,{payload:node}){
 			state.currentFlow?.nodes.push(node)
+		},
+
+		updateNodeVal(state,{payload}:{payload:{nodeId:String,val:String|Number}}){
+			const {nodeId,val}=payload;
+			let nodes=JSON.parse(JSON.stringify(state.currentFlow?.nodes))
+			nodes=nodes.map(nd=>nd.id!=nodeId?nd:{...nd,data:{...nd.data,val:val}})
+			state.currentFlow={...state.currentFlow,nodes:nodes}
 		}
 	},
 	extraReducers(builder) {
@@ -88,6 +95,6 @@ const getSelectedFlowData = createAsyncThunk(
 	}
 )
 export const { setUserFlows, clearUserFlows, clearCurrentFlow } = flowManagementSlice.actions;
-export const { replaceEdges, replaceNodes, addNode } = flowManagementSlice.actions;
+export const { replaceEdges, replaceNodes, addNode, updateNodeVal } = flowManagementSlice.actions;
 export { getSelectedFlowData, getUserFlows }
 export default flowManagementSlice.reducer;

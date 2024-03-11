@@ -14,7 +14,10 @@ export function FlowOption({ flowOptions, selectedFlow, setSelectedFlow, onFlowR
 	const [flowName, setFlowname] = useState<String>()
 	const handleSelectFlow = ((e: React.ChangeEvent<HTMLSelectElement>) => {
 		const flow = flowOptions.find(el => el.id == e.currentTarget.value)
-		if (flow) setSelectedFlow(flow);
+		if (flow) setSelectedFlow(prev=>{
+			// if(prev && confirm('Make sure to save changes made to current flow')) return flow;
+			return flow
+		});
 		else setSelectedFlow(null)
 	})
 	useEffect(() => {
@@ -54,12 +57,12 @@ export function FlowOption({ flowOptions, selectedFlow, setSelectedFlow, onFlowR
 					</div>
 				</>
 			}
-			<div>
+			<div className="flex justify-between">
 				{selectedFlow &&<>
-					<button className="hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-yellow-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onSaveFlow() }}>Save</button>
-					<button className="hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-red-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onDeleteFlow() }}>Delete</button>
+					<button className="grow hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-yellow-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onSaveFlow() }}>Save</button>
+					<button className="grow hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-red-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onDeleteFlow() }}>Delete</button>
 				</>}
-				<button className="hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-green-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onAddNewFlow() }}>Add New Flow</button>
+				<button className="grow hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-green-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onAddNewFlow() }}>Add New Flow</button>
 			</div>
 		</div>
 	)
