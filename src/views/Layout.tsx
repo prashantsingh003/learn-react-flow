@@ -78,7 +78,7 @@ export function Layout() {
 										hover:text-blue-600 font-medium py-2 px-3 text-md hover:scale-95 duration-100 rounded-lg`
 										}
 									>
-										Mantine From
+										Mantine Form
 									</NavLink>
 									<NavLink
 										to="/calculator"
@@ -128,7 +128,7 @@ export function Layout() {
 								hover:text-blue-600 px-3 py-2 text-md block rounded-lg text-base font-medium`
 								}
 							>
-								Drag & Drop
+								Drag&Drop
 							</NavLink>
 							<NavLink
 								to="/flow-calculator"
@@ -137,7 +137,7 @@ export function Layout() {
 								hover:text-blue-600 px-3 py-2 text-md block rounded-lg text-base font-medium`
 								}
 							>
-								Flow Calculator
+								Calculator
 							</NavLink>
 							<NavLink
 								to="/mantine-form"
@@ -146,7 +146,7 @@ export function Layout() {
 								hover:text-blue-600 px-3 py-2 text-md block rounded-lg text-base font-medium`
 								}
 							>
-								Mantine From
+								Mantine Form
 							</NavLink>
 							<NavLink
 								to="/calculator"
@@ -155,7 +155,7 @@ export function Layout() {
 								hover:text-blue-600 px-3 py-2 text-md block rounded-lg text-base font-medium`
 								}
 							>
-								Backend Calculator
+								User Calculator
 							</NavLink>
 						</div>
 					</div>
