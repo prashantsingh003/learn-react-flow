@@ -6,5 +6,6 @@ import { FastapoiCalculator } from './BackendBased/FastapiCalculator.tsx';
 import { CalculatorParent } from './Calculator/CalculatorParent.tsx';
 import { Login } from './Login.tsx';
 import { Signup } from './SignUp.tsx';
+import { LandingPage } from './LandingPage.tsx';
 
-export { Flow, DragDrop, Calculator, AppForm, FastapoiCalculator, CalculatorParent, Login, Signup};
+export { Flow, DragDrop, Calculator, AppForm, FastapoiCalculator, CalculatorParent, Login, Signup, LandingPage};

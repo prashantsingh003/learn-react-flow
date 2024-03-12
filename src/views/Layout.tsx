@@ -5,140 +5,179 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../store/slices/authSlice/authSlice';
 import { RootState } from '../store';
+import {ClickOutside} from '../hooks'
 
 
 export function Layout() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [isAccountOpen, setIsAccountOpen] = useState(false);
 	const [expanded, setExpanded] = useState(false);
 	const isAuthenticated = useSelector((state: RootState) => !!state.auth.user)
-
-	const hideOptionsClass=` ${expanded?'':'hidden'} md:block `
-	const listClass = "border border-gray-300 p-4 hover:bg-gray-100 transition duration-300 rounded-lg"
-	const linkClass = "block py-2 pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0"
-	const logOutClass = "block py-2 pr-4 pl-3 text-red-700 duration-200 border-b border-gray-100 hover:text-red-400 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0"
-	useEffect(() => navigate('/calculator'), [])
+	useEffect(() => navigate('/landing'), [])
 	return (
-		<div>
-			<header className='my-1'>
-				<h1 className='p-2 font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center text-gray-500'>
-					REACT FLOW
-				</h1>
-			</header>
-			<div className="w-full flex flex-col sm:flex-row h-full flex-grow overflow-hidden" style={{ maxHeight: "980px" }}>
-				<div className="sm:w-1/4 md:1/6 w-full flex-shrink flex-grow-0 p-4">
-					<div className="sticky top-0 p-4 w-full">
-						<ul className="flex flex-col space-y-4">
-							<li className={listClass} onClick={() => setIsAccountOpen((prev: Boolean) => !prev)}>
-								<button className={linkClass}>
-									Account
-								</button>
-							</li>
-							{isAccountOpen && (
-								<div className="pl-4">
-									{!isAuthenticated &&
-										(<>
-											<li className={listClass}>
-												<NavLink
-													to="/login"
-													className={({ isActive }) =>
-														` ${isActive ? 'text-orange-700' : 'text-gray-700'} ${linkClass}`
-													}
-												>
-													Login
-												</NavLink>
-											</li>
-											<li className={listClass}>
-												<NavLink
-													to="/signup"
-													className={({ isActive }) =>
-														` ${isActive ? 'text-orange-700' : 'text-gray-700'} ${linkClass}`
-													}
-												>
-													Sign Up
-												</NavLink>
-											</li>
-										</>)
+		<div className='sm:rounded-2xl flex flex-col h-screen sm:h-auto pt-3 px-3 sm:px-16 bg-white drop-shadow-2xl sm:my-8'>
+			<nav className=''>
+				<div className="mx-auto">
+					<div className="relative h-16 items-center flex justify-between">
+						<div className="absolute left-0 flex items-center md:hidden">
+							<button onClick={() => setExpanded(prev => !prev)} className='flex items-center justify-center rounded-md p-1 text-gray-400 hover:bg-gray-700 hover:text-white'>
+								<svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+									<path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+								</svg>
+								<svg className="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+									<path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+								</svg>
+							</button>
+						</div>
+						<div className="flex flex-1 items-center justify-center md:justify-start">
+							<div className="flex flex-shrink-0">
+								<NavLink
+									to="/landing"
+									className={({ isActive }) =>
+										` ${isActive ? 'text-blue-500' : 'text-blue-500'}
+										text-center text-2xl font-bold rounded-lg`
 									}
-									{isAuthenticated && <li className={listClass}>
-										<button
-											onClick={() => {
-												dispatch(logout());
-												navigate('/login')
-											}}
-											className={`${logOutClass}`}
-										>
-											Log Out
-										</button>
-									</li>}
+								>
+									Logo
+								</NavLink>
+								{/* <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company"/> */}
+							</div>
+							<div className="hidden md:block mx-3">
+								<div className="flex space-x-3">
+									<NavLink
+										to="/flow"
+										className={({ isActive }) =>
+											` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+										hover:text-blue-600 font-medium py-2 px-3 text-md hover:scale-95 duration-100 rounded-lg`
+										}
+									>
+										Flow
+									</NavLink>
+									<NavLink
+										to="/dragdrop"
+										className={({ isActive }) =>
+											` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+										hover:text-blue-600 font-medium py-2 px-3 text-md hover:scale-95 duration-100 rounded-lg`
+										}
+									>
+										Drag&Drop
+									</NavLink>
+									<NavLink
+										to="/flow-calculator"
+										className={({ isActive }) =>
+											` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+										hover:text-blue-600 font-medium py-2 px-3 text-md hover:scale-95 duration-100 rounded-lg`
+										}
+									>
+										Calculator
+									</NavLink>
+									<NavLink
+										to="/mantine-form"
+										className={({ isActive }) =>
+											` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+										hover:text-blue-600 font-medium py-2 px-3 text-md hover:scale-95 duration-100 rounded-lg`
+										}
+									>
+										Mantine From
+									</NavLink>
+									<NavLink
+										to="/calculator"
+										className={({ isActive }) =>
+											` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+										hover:text-blue-600 font-medium py-2 px-3 text-md hover:scale-95 duration-100 rounded-lg`
+										}
+									>
+										User Calculator
+									</NavLink>
 								</div>
-							)}
-
-							<li className={listClass + hideOptionsClass}>
-								<NavLink
-									to="/flow"
-									className={({ isActive }) =>
-										` ${isActive ? 'text-orange-700' : 'text-gray-700'} ${linkClass}`
-									}
-								>
-									Flow
-								</NavLink>
-							</li>
-							<li className={listClass + hideOptionsClass}>
-								<NavLink
-									to="/dragdrop"
-									className={({ isActive }) =>
-										` ${isActive ? 'text-orange-700' : 'text-gray-700'} ${linkClass}`
-									}
-								>
-									Drag & Drop
-								</NavLink>
-							</li>
-							<li className={listClass + hideOptionsClass}>
-								<NavLink
-									to="/flow-calculator"
-									className={({ isActive }) =>
-										` ${isActive ? 'text-orange-700' : 'text-gray-700'} ${linkClass}`
-									}
-								>
-									Flow Calculator
-								</NavLink>
-							</li>
-							<li className={listClass + hideOptionsClass}>
-								<NavLink
-									to="/mantine-form"
-									className={({ isActive }) =>
-										` ${isActive ? 'text-orange-700' : 'text-gray-700'} ${linkClass}`
-									}
-								>
-									Mantine From
-								</NavLink>
-							</li>
-							<li className={listClass + hideOptionsClass}>
-								<NavLink
-									to="/calculator"
-									className={({ isActive }) =>
-										` ${isActive ? 'text-orange-700' : 'text-gray-700'} ${linkClass}`
-									}
-								>
-									Backend Calculator
-								</NavLink>
-							</li>
-							<li className={listClass+" md:hidden"} onClick={() => setExpanded((prev: Boolean) => !prev)}>
-								<button className={linkClass + ' text-center'}>
-									{expanded ? 'Hide' : 'Show'} Options
-								</button>
-							</li>
-						</ul>
+							</div>
+						</div>
+						<div className="relative flex items-center">
+							{isAuthenticated ?
+								<>
+									<button
+										onClick={() => {
+											dispatch(logout());
+											navigate('/login')
+										}} className="py-2 px-3 rounded-lg text-white bg-blue-500 font-medium w-21 hover:scale-95">Log Out</button>
+								</> :
+								<>
+									<NavLink to="/login" className="py-2 px-3 rounded-lg text-gray-700 font-medium w-20 hover:scale-95 duration-100">Login</NavLink>
+									<NavLink to="/signup" className="py-2 px-3 rounded-lg text-white bg-blue-500 font-medium w-21 hover:scale-95 duration-100">Sign up</NavLink>
+								</>
+							}
+						</div>
 					</div>
 				</div>
-				<main role="main" className="w-full h-full flex-grow p-3 overflow-auto">
+				<ClickOutside onClickOutside={()=>{setExpanded(false)}}>
+					<div className={`sm:hidden ${expanded ? '' : 'hidden'} absolute z-10 bg-white drop-shadow-lg`}>
+						<div className="space-y-1 p-2">
+							<NavLink
+								to="/flow"
+								className={({ isActive }) =>
+									` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+								hover:text-blue-600 px-3 py-2 text-md block rounded-lg text-base font-medium`
+								}
+							>
+								Flow
+							</NavLink>
+							<NavLink
+								to="/dragdrop"
+								className={({ isActive }) =>
+									` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+								hover:text-blue-600 px-3 py-2 text-md block rounded-lg text-base font-medium`
+								}
+							>
+								Drag & Drop
+							</NavLink>
+							<NavLink
+								to="/flow-calculator"
+								className={({ isActive }) =>
+									` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+								hover:text-blue-600 px-3 py-2 text-md block rounded-lg text-base font-medium`
+								}
+							>
+								Flow Calculator
+							</NavLink>
+							<NavLink
+								to="/mantine-form"
+								className={({ isActive }) =>
+									` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+								hover:text-blue-600 px-3 py-2 text-md block rounded-lg text-base font-medium`
+								}
+							>
+								Mantine From
+							</NavLink>
+							<NavLink
+								to="/calculator"
+								className={({ isActive }) =>
+									` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+								hover:text-blue-600 px-3 py-2 text-md block rounded-lg text-base font-medium`
+								}
+							>
+								Backend Calculator
+							</NavLink>
+						</div>
+					</div>
+				</ClickOutside>
+			</nav>
+			<div className="w-full flex flex-col sm:flex-row h-full flex-grow overflow-hidden" style={{ maxHeight: "980px" }}>
+				<main role="main" className="w-full flex-grow my-3 overflow-auto">
 					<Outlet></Outlet>
 				</main>
 			</div>
-			<footer className="mt-auto">
-				...
+			<footer className="">
+				<div className="text-center text-sm text-gray-400 font-medium">
+					Trusted by individuals and teams at the world's <br/>
+					best companies.
+				</div>
+				<div className='flex flex-wrap-space-x-3 items-center justify-center'>
+					<div className="text-gray-400 font-bold p-2 text-xl">Logo</div>
+					<div className="text-gray-400 font-bold p-2 text-xl">Logo</div>
+					<div className="text-gray-400 font-bold p-2 text-xl">Logo</div>
+					<div className="text-gray-400 font-bold p-2 text-xl">Logo</div>
+					<div className="text-gray-400 font-bold p-2 text-xl">Logo</div>
+				</div>
 			</footer>
 		</div>
 	)
