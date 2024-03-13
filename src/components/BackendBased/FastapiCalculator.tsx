@@ -9,6 +9,8 @@ import { useState } from "react";
 import { FlowData, getSelectedFlowData, getUserFlows } from "../../store/slices/flowManagement/flowManagementSlice";
 import { FlowOption } from "./FlowOption";
 import { createFlowApi, deleteFlowApi, flowApi, renameFlowApi, updateFlowApi } from "../../utils/api";
+import { FlowContextProvider } from "./context/FlowContext";
+import { NodeOptions } from "./NodeOptions";
 
 export function FastapoiCalculator() {
 	const isAuthenticated = useSelector((state: RootState) => !!state.auth.user)
@@ -98,6 +100,7 @@ export function FastapoiCalculator() {
 
 	if (isAuthenticated) {
 		return (
+			<FlowContextProvider value={{addNewFlow, updateFlow, deleteFlow, refreshFlow, renameFlow}}>
 			<div className="flex flex-col gap-y-2">
 				<div className="">
 					<FlowOption
@@ -105,14 +108,12 @@ export function FastapoiCalculator() {
 						selectedFlow={selectedFlow}
 						setSelectedFlow={setSelectedFlow}
 						onFlowRename={renameFlow}
-						onDeleteFlow={deleteFlow}
-						onAddNewFlow={addNewFlow}
-						onSaveFlow={updateFlow}
 					></FlowOption>
 				</div>
 				<div className="grow">
 					{currentFlow ?
 						<ReactFlowProvider>
+							<NodeOptions selectedFlow={selectedFlow}></NodeOptions>
 							<FlowCalculator onSaveFlow={updateFlow} refreshFlow={refreshFlow}></FlowCalculator>
 						</ReactFlowProvider>
 						:
@@ -133,6 +134,7 @@ export function FastapoiCalculator() {
 					</div>
 				}
 			</div>
+			</FlowContextProvider>
 		)
 	}
 	else {

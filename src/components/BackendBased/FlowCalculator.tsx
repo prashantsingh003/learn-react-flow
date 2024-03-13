@@ -93,7 +93,6 @@ export function FlowCalculator({onSaveFlow,refreshFlow}:FlowCalculatorProps){
 	
 	return(
 		<>
-		<NodeOptions></NodeOptions>
 		<div style={{ width: '100%', height: '50vh' }} className="rounded-lg">
 			<ReactFlow
 				nodes={nodes}

@@ -7,5 +7,7 @@ import { CalculatorParent } from './Calculator/CalculatorParent.tsx';
 import { Login } from './Login.tsx';
 import { Signup } from './SignUp.tsx';
 import { LandingPage } from './LandingPage.tsx';
+import { AppToolTip } from './UI';
 
 export { Flow, DragDrop, Calculator, AppForm, FastapoiCalculator, CalculatorParent, Login, Signup, LandingPage};
+export {AppToolTip}

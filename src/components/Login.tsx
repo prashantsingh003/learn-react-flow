@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { getLogin } from '../utils/api';
 import { useDispatch } from 'react-redux';
 import { setUser,User } from '../store/slices/authSlice/authSlice';
-
-
 export const Login: React.FC = () => {
 	const [message,setMessage]=useState<String|null>();
   const navigate=useNavigate()
