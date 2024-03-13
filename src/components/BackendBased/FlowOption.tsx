@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FlowData } from "../../store/slices/flowManagement/flowManagementSlice"
-
+import { BiSolidAddToQueue } from "react-icons/bi";
+import { useFlowContext } from "./context/FlowContext";
 interface FlowOptionProps {
 	flowOptions: FlowData[];
 	selectedFlow: FlowData | null;
@@ -10,6 +11,7 @@ interface FlowOptionProps {
 
 export function FlowOption({ flowOptions, selectedFlow, setSelectedFlow, onFlowRename }: FlowOptionProps) {
 	const [flowName, setFlowname] = useState<String>()
+	const {addNewFlow} =useFlowContext()
 	const handleSelectFlow = ((e: React.ChangeEvent<HTMLSelectElement>) => {
 		const flow = flowOptions.find(el => el.id == e.currentTarget.value)
 		if (flow) setSelectedFlow(prev => {
@@ -21,7 +23,7 @@ export function FlowOption({ flowOptions, selectedFlow, setSelectedFlow, onFlowR
 	useEffect(() => {
 		setFlowname('' + (selectedFlow && selectedFlow.name))
 	}
-		, [selectedFlow])
+	,[selectedFlow])
 	return (
 		<div className="flex flex-col md:flex-row justify-between align-middle">
 			{Boolean(flowOptions.length) &&
@@ -55,6 +57,12 @@ export function FlowOption({ flowOptions, selectedFlow, setSelectedFlow, onFlowR
 					</div>
 				</>
 			}
+
+			{!selectedFlow && <abbr title='Add Flow'>
+				<button className="hover:scale-95 duration-100 md:m-0 rounded-lg p-2 text-lg text-gray-500 font-bold" onClick={() => { addNewFlow() }}>
+					<BiSolidAddToQueue/>
+				</button>
+			</abbr>}
 		</div>
 	)
 }
