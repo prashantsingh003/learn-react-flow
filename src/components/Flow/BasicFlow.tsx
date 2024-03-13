@@ -85,7 +85,7 @@ const defaultEdgeOptions = {
   type: 'turbo',
   markerEnd: 'edge-circle',
 };
-export function Flow(){
+export function BasicFlow(){
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 	const [inp,setInp]=useState({title:'',subLine:''})

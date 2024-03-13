@@ -1,12 +1,12 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
-import { Flow,DragDrop, Calculator,AppForm,FastapoiCalculator, Login, Signup, LandingPage} from "./components/index.js"
+import { BasicFlow,DragDrop, Calculator,AppForm,FastapoiCalculator, Login, Signup, LandingPage} from "./components/index.js"
 import { Layout } from "./views/Layout.js"
 
 const Router=createBrowserRouter(
   createRoutesFromElements(
 		<Route path="/" element={<Layout/>}>
 			<Route path="landing" element={<LandingPage/>}/>
-			<Route path="flow" element={<Flow/>}/>
+			<Route path="flow" element={<BasicFlow/>}/>
 			<Route path="dragdrop" element={<DragDrop/>}/>
 			<Route path="flow-calculator" element={<Calculator/>}/>
 			<Route path="mantine-form" element={<AppForm/>}/>
