@@ -63,7 +63,7 @@ export function ResultNode(node:Node){
 				let temp=[num]
 				arr=temp.concat(arr.slice(3))
 			}
-			return num;
+			return parseFloat(num).toFixed(2);
 		}
 		const resultArr=getNodeOperationInArrayFormat()
 		setRes(getResult(resultArr))

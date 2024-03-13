@@ -18,7 +18,7 @@ export function FastapoiCalculator() {
 	const {currentFlow}=useSelector((state:RootState)=>state.userFlow)
 
 	const [selectedFlow, setSelectedFlow] = useState<FlowData | null>(null)
-	const [msg, setMsg] = useState<{ msg: String, type: String } | null>(null)
+	const [msg, setMsg] = useState<{ msg: String, error:Boolean } | null>(null)
 
 	const refreshFlowsList = () => user && dispatch(getUserFlows(user.id))
 
@@ -27,12 +27,12 @@ export function FastapoiCalculator() {
 		axios.put(renameFlowApi + selectedFlow.id, { flow_name })
 			.then((res: any) => {
 				refreshFlowsList()
-				setMsg({ msg: 'Successfully Updated Name to ' + flow_name, type: 'success' })
+				setMsg({ msg: 'Successfully Updated Name to ' + flow_name, error:false })
 			})
 			.catch((err: Error) => {
 				console.log('unable to rename flow')
 				console.error(err)
-				setMsg({ msg: 'Oops!! Error occured while renaming, please try again', type: 'error' })
+				setMsg({ msg: 'Oops!! Error occured while renaming, please try again', error:true })
 			})
 	}
 
@@ -43,12 +43,12 @@ export function FastapoiCalculator() {
 			.then((res: any) => {
 				refreshFlowsList()
 				setSelectedFlow(null)
-				setMsg({ msg: 'Successfully Deleted Flow : ' + selectedFlow.name, type: 'success' })
+				setMsg({ msg: 'Successfully Deleted Flow : ' + selectedFlow.name, error:false })
 			})
 			.catch((err: Error) => {
 				console.log('unable to delete flow')
 				console.error(err)
-				setMsg({ msg: 'Oops!! Error occured deleting flow', type: 'error' })
+				setMsg({ msg: 'Oops!! Error occured deleting flow', error:true })
 			})
 	}
 
@@ -57,12 +57,12 @@ export function FastapoiCalculator() {
 		const flow={nodes:currentFlow.nodes,edges:currentFlow.edges}
 		axios.put(updateFlowApi + selectedFlow.id,flow)
 			.then((res: any) => {
-				setMsg({ msg: 'Successfully Updated Flow : ' + selectedFlow.name, type: 'success' })
+				setMsg({ msg: 'Successfully Updated Flow : ' + selectedFlow.name, error:false })
 			})
 			.catch((err: Error) => {
 				console.log('unable to delete flow')
 				console.error(err)
-				setMsg({ msg: 'Oops!! Error occured updateing flow', type: 'error' })
+				setMsg({ msg: 'Oops!! Error occured updateing flow', error:true })
 			})
 	}
 	const addNewFlow = () => {
@@ -74,10 +74,10 @@ export function FastapoiCalculator() {
 		axios.post(createFlowApi + user?.id, newFlow)
 			.then(res => {
 				refreshFlowsList()
-				setMsg({ msg: 'Successfully Added Flow ', type: 'success' })
+				setMsg({ msg: 'Successfully Added Flow ', error:false })
 			})
 			.catch((err: Error) => {
-				setMsg({ msg: 'Oops!! Error occured while adding flow, please try again', type: 'error' })
+				setMsg({ msg: 'Oops!! Error occured while adding flow, please try again', error:true })
 			})
 	}
 	const refreshFlow=()=>{
@@ -125,7 +125,8 @@ export function FastapoiCalculator() {
 				</div>
 				{msg &&
 					<div>
-						<div className={`border border-${msg.type == 'success' ? 'green' : 'red'}-600 text-${msg.type == 'success' ? 'green' : 'red'}-600 bg-${msg.type == 'success' ? 'green' : 'red'}-100 rounded-lg w-full p-2 text-center relative`}>
+						<div className={`${msg.error?'border-red-600 text-red-600 bg-red-100':'border-green-600 text-green-600 bg-green-100'}
+						border rounded-lg w-full p-2 text-center relative`}>
 							{msg.msg}
 							<button onClick={() => { setMsg(null) }} className="border border-slate-600 text-slate-600 bg-slate-100 absolute h-full aspect-square p-1 rounded-lg right-0 top-0">X</button>
 						</div>

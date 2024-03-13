@@ -59,10 +59,16 @@ export function FlowOption({ flowOptions, selectedFlow, setSelectedFlow, onFlowR
 			}
 			<div className="flex justify-between ">
 				{selectedFlow &&<>
-					<button className="flex-auto hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-yellow-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onSaveFlow() }}>Save</button>
-					<button className="flex-auto hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-red-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onDeleteFlow() }}>Delete</button>
+					<button className="flex-auto hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-yellow-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onSaveFlow() }}>
+						Save
+					</button>
+					<button className="flex-auto hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-red-500 rounded-lg p-2 border-gray-400 text-white" onClick={() => { onDeleteFlow() }}>
+						Delete
+					</button>
 				</>}
-				<button className="flex-auto hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-green-500 rounded-lg p-2 border-gray-400 text-white whitespace-nowrap" onClick={() => { onAddNewFlow() }}>Add Flow</button>
+				<button className="flex-auto hover:scale-105 duration-100 my-2 md:m-0 font-bold bg-green-500 rounded-lg p-2 border-gray-400 text-white whitespace-nowrap" onClick={() => { onAddNewFlow() }}>
+					Add Flow
+				</button>
 			</div>
 		</div>
 	)
