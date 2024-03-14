@@ -2,14 +2,14 @@ import { FlowData } from "../../store/slices/flowManagement/flowManagementSlice"
 import { FlowCrudOptions } from "./FlowCrudOptions";
 
 	
-	const onDragStart=(event:any,nodeType:string)=>{	
-    event.dataTransfer.setData('application/reactflow', nodeType);
-    event.dataTransfer.effectAllowed = 'move';
-	}
-	export type NodeOptionsProps={
-		selectedFlow:FlowData|null
-	}
-	export function NodeOptions({selectedFlow}:NodeOptionsProps) {
+const onDragStart=(event:any,nodeType:string)=>{	
+	event.dataTransfer.setData('application/reactflow', nodeType);
+	event.dataTransfer.effectAllowed = 'move';
+}
+export type NodeOptionsProps={
+	selectedFlow:FlowData|null
+}
+export function NodeOptions({selectedFlow}:NodeOptionsProps) {
 	return (
 		<>
 			<aside className="md:flex justify-between">

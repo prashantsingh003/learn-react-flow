@@ -13,7 +13,7 @@ export function Layout() {
 	const dispatch = useDispatch();
 	const [expanded, setExpanded] = useState(false);
 	const isAuthenticated = useSelector((state: RootState) => !!state.auth.user)
-	useEffect(() => navigate('/landing'), [])
+	useEffect(() => navigate('/file'), [])
 	return (
 		<div className='sm:rounded-2xl flex flex-col h-screen sm:h-auto pt-3 px-3 sm:px-16 bg-white drop-shadow-2xl sm:my-8'>
 			<nav className=''>
@@ -89,6 +89,15 @@ export function Layout() {
 									>
 										User Calculator
 									</NavLink>
+									<NavLink
+										to="/file"
+										className={({ isActive }) =>
+											` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+										hover:text-blue-600 font-medium py-2 px-3 text-md hover:scale-95 duration-100 rounded-lg`
+										}
+									>
+										File Op
+									</NavLink>
 								</div>
 							</div>
 						</div>
@@ -156,6 +165,15 @@ export function Layout() {
 								}
 							>
 								User Calculator
+							</NavLink>
+							<NavLink
+								to="/file"
+								className={({ isActive }) =>
+									` ${isActive ? 'text-blue-500' : 'text-gray-600'}
+								hover:text-blue-600 px-3 py-2 text-md block rounded-lg text-base font-medium`
+								}
+							>
+								File Op
 							</NavLink>
 						</div>
 					</div>

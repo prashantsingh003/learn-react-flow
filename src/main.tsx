@@ -1,8 +1,10 @@
-import React from 'react'
 import {createRoot} from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import './flow.css'
+import 'reactflow/dist/style.css';
 import './config/fontAwesome.tsx'
+
 // Poppins font
 import "@fontsource/poppins"; // Defaults to weight 400
 import "@fontsource/poppins/500.css"; // Specify weight

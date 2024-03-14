@@ -14,7 +14,7 @@ export function OperatorNode(node:Node){
 	})
 	return (
 		
-	<div className="text-slate-900 p-3 rounded-lg bg-blue-300 text-white">
+	<div className="p-3 rounded-lg bg-blue-300 text-white">
 		<label htmlFor="operation-select" className="text-xl text-center p-1 m-2">Select an operation</label>
 		<select
 			onChange={handleValChange}

@@ -69,7 +69,7 @@ export function ResultNode(node:Node){
 		setRes(getResult(resultArr))
 	},[nodes,edges])
 	return (
-		<div className="py-2 px-3 rounded-lg text-center bg-slate-200 font-bold text-lg text-slate-900">
+		<div className="py-2 px-3 rounded-lg text-center bg-slate-200 font-bold text-lg text-slate-900 w-full">
 			<div>Result</div>
 			<div>{res}</div>
 			<Handle type="target" className="bg-white rounded-full" id={''+targetHandle} position={Position.Left}/>

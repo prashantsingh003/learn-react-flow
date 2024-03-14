@@ -1,5 +1,5 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
-import { BasicFlow,DragDrop, Calculator,AppForm,FastapoiCalculator, Login, Signup, LandingPage} from "./components/index.js"
+import { BasicFlow,DragDrop, Calculator,AppForm,FastapoiCalculator, Login, Signup, LandingPage, FlowControl} from "./components/index.js"
 import { Layout } from "./views/Layout.js"
 
 const Router=createBrowserRouter(
@@ -12,9 +12,8 @@ const Router=createBrowserRouter(
 			<Route path="mantine-form" element={<AppForm/>}/>
 			<Route path="login" element={<Login/>}/>
 			<Route path="signup" element={<Signup/>}/>
-			<Route path="calculator" element={<FastapoiCalculator/>}>
-				{/* <Route path="calculator" element={<FastapoiCalculator/>}/> */}
-			</Route>
+			<Route path="calculator" element={<FastapoiCalculator/>}/>
+			<Route path="file" element={<FlowControl/>}/>
 		</Route>
 	)
 )

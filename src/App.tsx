@@ -7,7 +7,6 @@ import { Router } from './router';
 import { RouterProvider } from 'react-router-dom';
 import { useEffect } from 'react';
 import { clearCurrentFlow, clearUserFlows, getUserFlows } from './store/slices/flowManagement/flowManagementSlice';
-import 'reactflow/dist/style.css';
 function App() {
   const dispatch=useDispatch<AppDispatch>()
   const user=useSelector((state:RootState)=>state.auth.user)

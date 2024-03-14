@@ -1,6 +1,6 @@
 import { memo, ReactNode } from 'react';
 import { Handle, NodeProps, Position } from 'reactflow';
-// import { FiCloud } from 'react-icons/fi';
+import { FiCloud } from 'react-icons/fi';
 
 export type TurboNodeData = {
   title: string;
@@ -8,22 +8,27 @@ export type TurboNodeData = {
   subline?: string;
 };
 
-export default memo(({ data }: NodeProps<TurboNodeData>) => {
+export default memo(({ data }: NodeProps<any>) => {
   return (
     <>
-      <div className="wrapper gradient">
-        <div className="inner">
-          <div className="body">
-            {data.icon && <div className="icon">{data.icon}</div>}
-            <div>
-              <div className="title">{data.title}</div>
-              {data.subline && <div className="subline">{data.subline}</div>}
-            </div>
-          </div>
-          <Handle type="target" position={Position.Left} />
-          <Handle type="source" position={Position.Right} />
-        </div>
+    <div className="cloud gradient">
+      <div>
+        <FiCloud />
       </div>
+    </div>
+    <div className="wrapper gradient">
+      <div className="inner">
+        <div className="body">
+          {data.icon && <div className="icon">{data.icon}</div>}
+          <div>
+            <div className="title">{data.title}</div>
+            {data.subline && <div className="subline">{data.subline}</div>}
+          </div>
+        </div>
+        <Handle type="target" position={Position.Left} />
+        <Handle type="source" position={Position.Right} />
+      </div>
+    </div>
     </>
   );
 });
